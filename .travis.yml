@@ -10,7 +10,7 @@ env:
     - DSC=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0-9.dsc
     - ORIG=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0.orig.tar.gz
     - DEBIANIZATION=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0-9.debian.tar.xz
-    - WORKSPACE=${TRAVIS_BUILD_DIR}
+    - WORKSPACE=/home/somebody
 
 jobs:
   include:
@@ -26,8 +26,8 @@ before_install:
 
 script:
   - docker exec -w ${TRAVIS_BUILD_DIR} -e WORKSPACE=${WORKSPACE} ${VENDOR}_${VERSION} ./setup -u
-  - docker exec -w ${TRAVIS_BUILD_DIR} -e WORKSPACE=${WORKSPACE} -u somebody ${VENDOR}_${VERSION} wget ${DSC} ${ORIG} ${DEBIANIZATION}
-  - docker exec -w ${TRAVIS_BUILD_DIR} -e WORKSPACE=${WORKSPACE} ${VENDOR}_${VERSION} ./prepare
+  - docker exec -w /home/somebody -e WORKSPACE=${WORKSPACE} -u somebody ${VENDOR}_${VERSION} wget ${DSC} ${ORIG} ${DEBIANIZATION}
+  - docker exec -w /home/somebody -e WORKSPACE=${WORKSPACE} ${VENDOR}_${VERSION} ./prepare
 
 after_success:
   - docker kill ${VENDOR}_${VERSION}
