@@ -1,0 +1,21 @@
+#! /bin/bash
+
+set -euv
+
+dpkg-source -x *dsc package
+
+cd package
+
+DISTRIB=$(lsb_release -cs)
+PATCH="${WORKSPACE}/patches/$(lsb_release -cs).patch"
+if [ -e ${PATCH} ]; then
+  patch --batch --strip=1 --input="${PATCH}"
+fi
+
+sudo mk-build-deps --tool "apt-get -y --no-install-recommends" --install debian/control
+
+CHANGELOG="debian/changelog"
+SOURCE_PACKAGE=$(dpkg-parsechangelog -l"${CHANGELOG}" -S Source)
+VERSION=$(dpkg-parsechangelog -l"${CHANGELOG}" -S Version)
+
+rm -f ${SOURCE_PACKAGE}-build-deps_${VERSION}_all.deb

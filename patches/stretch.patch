@@ -1,0 +1,30 @@
+diff --git a/debian/control b/debian/control
+--- a/debian/control
++++ b/debian/control
+@@ -4,10 +4,10 @@ Uploaders: Julien Lamy <lamy@unistra.fr>
+ Section: science
+ Testsuite: autopkgtest-pkg-python
+ Priority: optional
+-Build-Depends: debhelper-compat (= 12),
+-               d-shlibs (>= 0.81),
++Build-Depends: debhelper,
++               d-shlibs,
+                dh-python,
+                cmake,
+-               g++ (>= 4:7),
++               g++ (>= 4:6),
+                pkg-config,
+                libjsoncpp-dev,
+                libdcmtk-dev | libdcmtk2-dev,
+diff --git a/debian/rules b/debian/rules
+--- a/debian/rules
++++ b/debian/rules
+@@ -99,6 +99,10 @@ override_dh_install-arch:
+ 		--commit --multiarch --exclude-a --exclude-la \
+ 		--movedev debian/tmp/usr/include/* usr/include \
+ 		--override s/libboost_log.*-dev/libboost-log-dev/ \
++		--override s/libjsoncpp.-dev/libjsoncpp-dev/ \
++		--override s/libdcm.*-dev/libdcmtk-dev/ \
++		--override s/libof.*-dev/libdcmtk-dev/ \
++		--override s/libicuuc.*-dev/libicu-dev/ \
+ 		debian/tmp/usr/lib/*.so
