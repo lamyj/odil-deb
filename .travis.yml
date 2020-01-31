@@ -6,12 +6,13 @@ services:
   - docker
 
 env:
-  - DSC=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0-9.dsc
-  - ORIG=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0.orig.tar.gz
-  - DEBIANIZATION=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0-9.debian.tar.xz
-  - WORKSPACE=${TRAVIS_BUILD_DIR}
+  global:
+    - DSC=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0-9.dsc
+    - ORIG=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0.orig.tar.gz
+    - DEBIANIZATION=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0-9.debian.tar.xz
+    - WORKSPACE=${TRAVIS_BUILD_DIR}
 
-matrix:
+jobs:
   include:
     - env:
       - VENDOR=debian
