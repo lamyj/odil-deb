@@ -28,7 +28,7 @@ DISTRIB=$(lsb_release -cs)
 if [ "${UNOFFICIAL_REPO}" = "yes" ]; then
   REPO="http://dl.bintray.com/lamyj/generic"
   EXISTS=$(wget --spider -q "${REPO}/apt/dists/${DISTRIB}/Release" && echo "yes" || true)
-  if [ x"${EXISTS}" = "yes" ];
+  if [ x"${EXISTS}" = "yes" ]; then
     wget -O - "${REPO}/gpg.key" | apt-key add -
     add-apt-repository -s "deb ${REPO}/apt ${DISTRIB} main"
 
