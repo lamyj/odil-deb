@@ -1,11 +1,19 @@
+language: minimal
+
+os: linux
+sudo: required
+services:
+  - docker
+
 matrix:
   include:
     - env:
-        - VENDOR=debian
-        - VERSION=stretch
+      - VENDOR=debian
+      - VERSION=stretch
     - env:
-        - VENDOR=debian
-        - VERSION=buster
+      - VENDOR=debian
+      - VERSION=buster
+
 before_install:
   - docker run -di -v ${TRAVIS_BUILD_DIR}:${TRAVIS_BUILD_DIR} --name ${VENDOR}_${VERSION} --rm ${VENDOR}:${VERSION}
 
