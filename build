@@ -1,0 +1,33 @@
+#! /bin/bash
+
+set -euv
+
+cd package
+
+uscan --force-download --download-current-version
+
+if [ -n "${BACKPORTER}" ]; then
+  
+  VERSION=$(dpkg-parsechangelog -l debian/changelog -S Version)
+  DISTRIB=$(lsb_release -cs)
+  
+  export DEBEMAIL="${BACKPORTER}"
+  dch \
+    -v "${VERSION}~${DISTRIB}" --distribution "${DISTRIB}" \
+    --force-bad-version --force-distribution \
+    "Backport to ${DISTRIB}"
+fi
+
+DPKG_BUILDPACKAGE="dpkg-buildpackage -us -uc"
+
+${DPKG_BUILDPACKAGE} -S
+
+CONTROL="debian/control"
+if [ -n "$(grep 'Architecture: all' ${CONTROL})" ]; then
+  ${DPKG_BUILDPACKAGE} -A
+fi
+if [ -n "$(grep 'Architecture: any' ${CONTROL})" ]; then
+  ${DPKG_BUILDPACKAGE} -B
+fi
+
+${DPKG_BUILDPACKAGE} -T clean
