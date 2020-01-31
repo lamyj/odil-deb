@@ -29,7 +29,6 @@ diff --git a/debian/rules b/debian/rules
 +		--override s/libicuuc.*-dev/libicu-dev/ \
  		debian/tmp/usr/lib/*.so
 diff --git a/compat b/compat
-new file mode 100644
 --- /dev/null
 +++ b/compat
 @@ -0,0 +1 @@
