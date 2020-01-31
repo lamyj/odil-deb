@@ -25,9 +25,11 @@ before_install:
   - docker run -di -v ${TRAVIS_BUILD_DIR}:${TRAVIS_BUILD_DIR} --name ${VENDOR}_${VERSION} --rm ${VENDOR}:${VERSION}
 
 script:
-  - docker exec -w  ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/setup -u
+  - docker exec ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/setup -u
   - docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} wget ${DSC} ${ORIG} ${DEBIANIZATION}
   - docker exec -w /home/somebody -u somebody -e PATCH_DIR=${PATCH_DIR} ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/prepare
+  - ./build
+  - ./check
 
 after_success:
   - docker kill ${VENDOR}_${VERSION}
