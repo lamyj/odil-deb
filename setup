@@ -1,9 +1,39 @@
 #!/bin/bash
 
+set -eu
+
+UNOFFICIAL_REPO="no"
+while getopts "p:uh" OPT; do
+  case ${OPT} in
+    u) UNOFFICIAL_REPO="yes" ;;
+    h) printf "Usage: %s: [-u]\n" $0
+       exit 2;;
+  esac
+done
+
+APT_GET="apt-get -y --no-install-recommends"
+
 apt-get update
 apt-get upgrade -y
-apt-get install -y --no-install-recommends adduser sudo 
+${APT_GET} install adduser sudo 
 
 adduser --disabled-password --gecos '' somebody
 chown -R somebody:somebody ~somebody
 echo 'somebody ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+${APT_GET} install gnupg lsb-release software-properties-common wget
+
+DISTRIB=$(lsb_release -cs)
+
+if [ "${UNOFFICIAL_REPO}" = "yes" ]; then
+  ${APT_GET} install gnupg software-properties-common wget
+
+  REPO="http://dl.bintray.com/lamyj/generic"
+  wget -O - "${REPO}/gpg.key" | apt-key add -
+  add-apt-repository -s "deb ${REPO}/apt ${DISTRIB} main"
+
+  apt-get update
+fi
+
+PACKAGES="apt-utils devscripts dpkg-dev equivs libwww-perl"
+${APT_GET} install ${PACKAGES}
