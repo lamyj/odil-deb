@@ -10,7 +10,7 @@ env:
     - DSC=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0-9.dsc
     - ORIG=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0.orig.tar.gz
     - DEBIANIZATION=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0-9.debian.tar.xz
-    - WORKSPACE=/home/somebody
+    - PATCH_DIR=${TRAVIS_BUILD_DIR}/patches
 
 jobs:
   include:
@@ -25,9 +25,9 @@ before_install:
   - docker run -di -v ${TRAVIS_BUILD_DIR}:${TRAVIS_BUILD_DIR} --name ${VENDOR}_${VERSION} --rm ${VENDOR}:${VERSION}
 
 script:
-  - docker exec -w ${TRAVIS_BUILD_DIR} ${VENDOR}_${VERSION} ./setup -u
-  - docker exec -w /home/somebody -e WORKSPACE=${WORKSPACE} -u somebody ${VENDOR}_${VERSION} wget ${DSC} ${ORIG} ${DEBIANIZATION}
-  - docker exec -w /home/somebody -e WORKSPACE=${WORKSPACE} ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/prepare
+  - docker exec -w  ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/setup -u
+  - docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} wget ${DSC} ${ORIG} ${DEBIANIZATION}
+  - docker exec -w /home/somebody -u somebody -e PATCH_DIR=${PATCH_DIR} ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/prepare
 
 after_success:
   - docker kill ${VENDOR}_${VERSION}

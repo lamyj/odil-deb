@@ -7,7 +7,7 @@ dpkg-source -x *dsc package
 cd package
 
 DISTRIB=$(lsb_release -cs)
-PATCH="${WORKSPACE}/patches/$(lsb_release -cs).patch"
+PATCH="${PATCH_DIR}/$(lsb_release -cs).patch"
 if [ -e ${PATCH} ]; then
   patch --batch --strip=1 --input="${PATCH}"
 fi
