@@ -1,7 +1,7 @@
 diff --git a/debian/control b/debian/control
 --- a/debian/control
 +++ b/debian/control
-@@ -4,10 +4,10 @@ Uploaders: Julien Lamy <lamy@unistra.fr>
+@@ -4,11 +4,11 @@ Uploaders: Julien Lamy <lamy@unistra.fr>
  Section: science
  Testsuite: autopkgtest-pkg-python
  Priority: optional
@@ -19,7 +19,7 @@ diff --git a/debian/control b/debian/control
 diff --git a/debian/rules b/debian/rules
 --- a/debian/rules
 +++ b/debian/rules
-@@ -99,6 +99,10 @@ override_dh_install-arch:
+@@ -111,6 +111,10 @@ --devunversioned \
  		--commit --multiarch --exclude-a --exclude-la \
  		--movedev debian/tmp/usr/include/* usr/include \
  		--override s/libboost_log.*-dev/libboost-log-dev/ \
@@ -28,8 +28,10 @@ diff --git a/debian/rules b/debian/rules
 +		--override s/libof.*-dev/libdcmtk-dev/ \
 +		--override s/libicuuc.*-dev/libicu-dev/ \
  		debian/tmp/usr/lib/*.so
-diff --git a/compat b/compat
+ 
+ override_dh_clean:
+diff --git a/debian/compat b/debian/compat
 --- /dev/null
-+++ b/compat
++++ b/debian/compat
 @@ -0,0 +1 @@
 +10
