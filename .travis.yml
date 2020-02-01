@@ -18,9 +18,9 @@ jobs:
     - env:
       - VENDOR=debian
       - VERSION=stretch
-    - env:
-      - VENDOR=debian
-      - VERSION=buster
+    # - env:
+    #   - VENDOR=debian
+    #   - VERSION=buster
 
 before_install:
   - docker run -di -v ${TRAVIS_BUILD_DIR}:${TRAVIS_BUILD_DIR} --name ${VENDOR}_${VERSION} --rm ${VENDOR}:${VERSION}
@@ -33,7 +33,7 @@ script:
   - docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} wget ${DSC} ${ORIG} ${DEBIANIZATION}
   - docker exec -w /home/somebody -u somebody -e PATCH_DIR=${PATCH_DIR} ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/prepare
   - docker exec -w /home/somebody -u somebody -e BACKPORTER="${BACKPORTER}" ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/build
-  # - docker exec -w /home/somebody -u somebody -e PATCH_DIR=${PATCH_DIR} ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/check
+  - docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/check
 
 after_success:
   - docker kill ${VENDOR}_${VERSION}
