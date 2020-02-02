@@ -7,7 +7,7 @@ diff --git a/debian/control b/debian/control
  Priority: optional
 -Build-Depends: debhelper-compat (= 12),
 -               d-shlibs (>= 0.81),
-+Build-Depends: debhelper,
++Build-Depends: debhelper (>= 10),
 +               d-shlibs,
                 dh-python,
                 cmake,
@@ -35,3 +35,14 @@ diff --git a/debian/compat b/debian/compat
 +++ b/debian/compat
 @@ -0,0 +1 @@
 +10
+diff --git a/debian/libodil-doc.doc-base b/debian/libodil-doc.doc-base
+--- a/debian/libodil-doc.doc-base
++++ a/debian/libodil-doc.doc-base
+@@ -5,5 +5,5 @@
+ Section: Science/Medicine
+ 
+ Format: HTML
+-Index: /usr/share/doc/libodil-dev/doxygen/html/index.html
+-Files: /usr/share/doc/libodil-dev/doxygen/html/*.html
++Index: /usr/share/doc/libodil-doc/doxygen/html/index.html
++Files: /usr/share/doc/libodil-doc/doxygen/html/*.html

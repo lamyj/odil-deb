@@ -6,7 +6,6 @@ dpkg-source -x *dsc package
 
 cd package
 
-DISTRIB=$(lsb_release -cs)
 PATCH="${PATCH_DIR}/$(lsb_release -cs).patch"
 if [ -e ${PATCH} ]; then
   patch --batch --strip=1 --input="${PATCH}"
