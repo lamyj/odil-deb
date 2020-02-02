@@ -1,0 +1,13 @@
+diff --git a/debian/rules b/debian/rules
+--- a/debian/rules
++++ b/debian/rules
+@@ -118,6 +118,9 @@
+ 	find tests -name "*pyc" -delete
+ 	rm -rf build-nopy $(ALLPY:%=build-py%) build-indep documentation/_build
+ 
++override_dh_dwz:
++	echo "Ignore dh_dwz due to 'dwz -q -- debian/python-odil/usr/lib/python2.7/dist-packages/odil/_odil.x86_64-linux-gnu.so returned exit code 1'"
++
+ # These steps are not needed for arch-independent packages
+ override_dh_auto_configure-indep:
+ override_dh_auto_test-indep:

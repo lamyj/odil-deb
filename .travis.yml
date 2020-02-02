@@ -18,9 +18,9 @@ jobs:
     - env:
       - VENDOR=debian
       - VERSION=stretch
-    # - env:
-    #   - VENDOR=debian
-    #   - VERSION=buster
+    - env:
+      - VENDOR=debian
+      - VERSION=buster
 
 before_install:
   - docker run -di -v ${TRAVIS_BUILD_DIR}:${TRAVIS_BUILD_DIR} --name ${VENDOR}_${VERSION} --rm ${VENDOR}:${VERSION}
