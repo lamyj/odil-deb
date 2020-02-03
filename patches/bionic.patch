@@ -1,0 +1,17 @@
+diff --git a/debian/control b/debian/control
+--- a/debian/control
++++ b/debian/control
+@@ -4,7 +4,7 @@ Uploaders: Julien Lamy <lamy@unistra.fr>
+ Section: science
+ Testsuite: autopkgtest-pkg-python
+ Priority: optional
+-Build-Depends: debhelper-compat (= 12),
++Build-Depends: debhelper (>= 11),
+                d-shlibs (>= 0.81),
+                dh-python,
+                cmake,
+diff --git a/debian/compat b/debian/compat
+--- /dev/null
++++ b/debian/compat
+@@ -0,0 +1 @@
++11
