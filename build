@@ -7,7 +7,6 @@ cd package
 uscan --force-download --download-current-version
 
 if [ -n "${BACKPORTER}" ]; then
-  
   VERSION=$(dpkg-parsechangelog -l debian/changelog -S Version)
   DISTRIB=$(lsb_release -cs)
   
@@ -18,7 +17,9 @@ if [ -n "${BACKPORTER}" ]; then
     "Backport to ${DISTRIB}"
 fi
 
-DPKG_BUILDPACKAGE="dpkg-buildpackage -us -uc"
+# NOTE: -jauto works since dpkg 1.17. jessie, xenial are OK, older versions are
+# untested
+DPKG_BUILDPACKAGE="dpkg-buildpackage -jauto -us -uc"
 
 ${DPKG_BUILDPACKAGE} -S
 

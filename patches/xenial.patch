@@ -1,0 +1,69 @@
+diff --git a/debian/compat b/debian/compat
+--- /dev/null
++++ b/debian/compat
+@@ -0,0 +1 @@
++9
+diff --git a/debian/control b/debian/control
+--- a/debian/control
++++ b/debian/control
+@@ -4,11 +4,11 @@ Uploaders: Julien Lamy <lamy@unistra.fr>
+ Section: science
+ Testsuite: autopkgtest-pkg-python
+ Priority: optional
+-Build-Depends: debhelper-compat (= 12),
+-               d-shlibs (>= 0.81),
++Build-Depends: debhelper (>= 9),
++               d-shlibs,
+                dh-python,
+                cmake,
+-               g++ (>= 4:7),
++               g++ (>= 4:5),
+                pkg-config,
+                libjsoncpp-dev,
+                libdcmtk-dev | libdcmtk2-dev,
+diff --git a/debian/rules b/debian/rules
+--- a/debian/rules
++++ b/debian/rules
+@@ -1,6 +1,6 @@
+ #!/usr/bin/make -f
+ 
+-export DEB_BUILD_MAINT_OPTIONS = hardening=+all
++export DEB_BUILD_MAINT_OPTIONS = hardening=+all,-pie
+ 
+ # needed for the tests
+ export DCMDICTPATH=$(shell ls /usr/share/libdcmtk*/dicom.dic | head -n 1)
+@@ -10,7 +10,7 @@ PYTHON3=$(shell py3versions -vd)
+ ALLPY=$(shell py3versions -vs)
+ 
+ %:
+-	dh $@ --builddirectory=build --with python3
++	dh $@ --builddirectory=build --with python3 --parallel
+ 
+ # Base build: no wrappers
+ override_dh_auto_configure-arch:
+@@ -111,6 +111,14 @@ override_dh_install-arch:
+ 		--commit --multiarch --exclude-a --exclude-la \
+ 		--movedev debian/tmp/usr/include/* usr/include \
+ 		--override s/libboost_log.*-dev/libboost-log-dev/ \
++		--override s/libjsoncpp.-dev/libjsoncpp-dev/ \
++		--override s/libdcm.*-dev/libdcmtk-dev/ \
++		--override s/libof.*-dev/libdcmtk-dev/ \
++		--override s/libicuuc.*-dev/libicu-dev/ \
++		--override s/libboost_date_time.*-dev/libboost-date-time-dev/ \
++		--override s/libboost_filesystem.*-dev/libboost-filesystem-dev/ \
++		--override s/libboost_regex.*-dev/libboost-regex-dev/ \
++		--override s/libboost_system.*-dev/libboost-system-dev/ \
+ 		debian/tmp/usr/lib/*.so
+ 
+ override_dh_clean:
+diff --git a/debian/libodil-doc.doc-base b/debian/libodil-doc.doc-base
+--- a/debian/libodil-doc.doc-base
++++ a/debian/libodil-doc.doc-base
+@@ -5,5 +5,5 @@
+ Section: Science/Medicine
+ 
+ Format: HTML
+-Index: /usr/share/doc/libodil-dev/doxygen/html/index.html
+-Files: /usr/share/doc/libodil-dev/doxygen/html/*.html
++Index: /usr/share/doc/libodil-doc/doxygen/html/index.html
++Files: /usr/share/doc/libodil-doc/doxygen/html/*.html
