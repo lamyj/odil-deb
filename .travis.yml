@@ -12,6 +12,12 @@ env:
     - ORIG=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0.orig.tar.gz
     - DEBIANIZATION=http://deb.debian.org/debian/pool/main/o/odil/odil_0.10.0-9.debian.tar.xz
     - PATCH_DIR=${TRAVIS_BUILD_DIR}/patches
+    # travis encrypt AWS_ENDPOINT=$AWS_ENDPOINT
+    secure: "WxkfNURZsifGeHXYpaS4fWAgbUbw4Y14rxNgdHI81PZWdKvx6iQ7yeWQ3BwH/7I5BhwpRjDCqLyp+hosdLvBvKoaqY8C/6w4T+RjHnVzQ3O1TJFyppM4lppgSmK/ESEsXQmpeeufIVLCAq4MfmkfrOmVcwr3PH/KlVY8mIz6iNjBY/oYY4L8Xx2PyGcHijZ9u2Yw+DARzOsjz6yFNwSQg7HAajoG54TiwIE+fEOvQ0XwYiqfq7AEWxItPqmz9cQJ+FRBrmHMNFdIuNx+7Tc7KK1Xt0eSn1nQTHTl8EAjt5NLfen6lKmph0Egp6LlO6XgwrlHcSEl4bwh17ky2aeXP2FluwH2M4if9yEyC2D6EE2SDejQNJ5rTiFFhVLB0Ds7s6TdUqYpesvqcphn7dhrg87sK/0ciwTNB4Rtne+qk6y5g6T5i09BlGPV0IkmcI+kn7pxo26szMWMHQhhPYcW5O73XQ7jnOrIFwdXczOFqHa0ZjDq+fv8WXur/oKPGYYmztmYzhosGB5RkgVFfdn+d22sAZ7vsMaxxPkruvSBd/miFyi/X7Q0PHtjOI7dn+NXd8IDUBYESgeGx3jQFrq89veRKTSbYrtQsvE6fA/uBI9ZAbAYp2fHX0ngn7ERuGe2KmV6Q1vdc/MjsH0EUPdQt5hwpGP61fp5hS6YuUJbY8Y="
+    # travis encrypt AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+    secure: "XKj7Hz7I5u8ztlwjmvHXhgu2hBdIepq6z8Z/15SLZomhmhJGgI1pJEh75id09Mi1tgVXq2DW/Q7eZg/0z8xBNtJ4K2jE8ISymiDj1ActHFN2SYJn4txSPQD1LTCFsK3/iBYhCRefLL9c2iXQhhxKkNF1m80Mk6W285wQ61gDrJywZIFLlN+OWjspImAn+k1zx0d0NNofXukN0Tvz1Z9nGuIE+lMRhRhYpudx5cs8Jdd/lKbmkTJ5Bv8nzfkbdPpLeDCAEL7t9oZRI74WwkCCKasJILdy2+hJLItlMbHgRZIq5G9O7P8W/YFaV20BRvjOZLfpe5BvK+4QFdsoZi76nsW31lsSOrIWLwNeo+TaGGhsCV09v0uN4qBJIJDozgT4lWTGhBhsdy3bcZLWLy1ag6d8HbDgWJDpbUsLC5VvlZbO4yDmJ9VoXebEtFthUJ3qEmYId541UzDnkarJHGId21zEX+xHJsODOU7qEd+udFCY7u2A7gVfp381EgqtZTmAkibcZCCN1NcEvsTLPcxTlittFqVW++gQ7xqhSoU9eUQVy0TdOhARuxsMvRUpHUDYBi4wrNP/5DEerfebbOg9NzFuEvG9xNlQ32u8IsXjtiEE5akezAO5cTN2ntEym60Q8T1qbjS5v9UISpf4Zdqlkc7k93BStzo9tw38NJaHPtM="
+    # travis encrypt AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+    secure: "ZpkW7Iv4WStg12kNPj+qoL6RU9fhhE6/PJjmEi3o9CrKfydoCTqLtMHA/KeYaWBCrsssRgLyqKuTlCCG8INB5QbsGJU5jyKJxT1DLgFn2EfhP+gLd/4UZxd5HgPXIXJflFlmYEuCC4NVoAZNA7quxFS4iFEl8TtMbTu1gcQPe+bBwMLo3cQua4m9yuhNlwnCxl4Tv5j6mIUj/Ar2snyXwJiPpsszqFMHnaJbl18YUpz0KKm1guAnMqPrHM07UspyVuuot3pF9idUdCapSDsjkBK7UHt8S8llBVCFnpPmWShQ5AoOH4R9HXwp3dunqpoo7tT0Aow+VdXYCGhj7pj8uaHh8V+S89auh5g5vhJGbStlbHvCr+EyDNHkLgNrM4JUbJelO/zl3RG8bQpGnWqbcGRv+KIZ3sQmhBUxJRvA93hYfrxvP2yfjeN8NPRJQ/hg6YQYx3QX2dirW3OQTL4cvDza+VVSA6F6rkp8J6bDt/N6uqXhC5GQPyA2aow+rzWnV8+WNyRLM+l7HuTnkDepEmK4BFhg5pvxHP4YTbmdNAXLe/cPvrvHKWLBv+CXIRwP97mpIeeX7MwtP+dDWKzb/YIsVMqWSyKb9PPYxeV3Y8YncxgK4BX+Eavx/cV2TADKPleiYC3WxK7c1aU95lTWpMHL38EHHKq19WVGblJn7qY="
 
 jobs:
   include:
@@ -30,10 +36,20 @@ script:
   # calling `apt-cache --no-generate show PKG`
   - docker exec ${VENDOR}_${VERSION} rm -f /etc/apt/apt.conf.d/docker-clean
   - docker exec ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/setup -u
-  - docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} wget ${DSC} ${ORIG} ${DEBIANIZATION}
+  - docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} curl -L --remote-name-all ${DSC} ${ORIG} ${DEBIANIZATION}
   - docker exec -w /home/somebody -u somebody -e PATCH_DIR=${PATCH_DIR} ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/prepare
   - docker exec -w /home/somebody -u somebody -e BACKPORTER="${BACKPORTER}" ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/build
   - docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/check
+  - docker exec -w ${TRAVIS_BUILD_DIR} ${VENDOR}_${VERSION} sh -c 'mv /home/somebody/*deb ./'
 
 after_success:
   - docker kill ${VENDOR}_${VERSION}
+
+deploy:
+  provider: s3
+  endpoint: $AWS_ENDPOINT
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  bucket: odil-deb
+  glob: *deb
+  skip_cleanup: true

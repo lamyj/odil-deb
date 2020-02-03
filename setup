@@ -15,21 +15,21 @@ APT_GET="apt-get -y --no-install-recommends"
 
 apt-get update
 apt-get upgrade -y
-${APT_GET} install adduser sudo 
+${APT_GET} install \
+  adduser apt-utils curl devscripts dpkg-dev equivs gnupg libwww-perl \
+  lsb-release software-properties-common sudo
 
 adduser --disabled-password --gecos '' somebody
 chown -R somebody:somebody ~somebody
 echo 'somebody ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-${APT_GET} install gnupg lsb-release software-properties-common wget
-
 DISTRIB=$(lsb_release -cs)
 
 if [ "${UNOFFICIAL_REPO}" = "yes" ]; then
   REPO="http://dl.bintray.com/lamyj/generic"
-  EXISTS=$(wget --spider -q "${REPO}/apt/dists/${DISTRIB}/Release" && echo "yes" || true)
+  EXISTS=$(curl -Lfs -o /dev/null "${REPO}/apt/dists/${DISTRIB}/Release" && echo "yes" || true)
   if [ x"${EXISTS}" = x"yes" ]; then
-    wget -O - "${REPO}/gpg.key" | apt-key add -
+    curl -L "${REPO}/gpg.key" | apt-key add -
     add-apt-repository -s "deb ${REPO}/apt ${DISTRIB} main"
 
     apt-get update
@@ -37,6 +37,3 @@ if [ "${UNOFFICIAL_REPO}" = "yes" ]; then
     echo "No repository for ${DISTRIB}"
   fi
 fi
-
-PACKAGES="apt-utils devscripts dpkg-dev equivs libwww-perl"
-${APT_GET} install ${PACKAGES}
