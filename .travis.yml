@@ -25,6 +25,8 @@ jobs:
       env: [VENDOR=debian, VERSION=stretch]
     - name: "Debian 10 (Buster)"
       env: [VENDOR=debian, VERSION=buster]
+    - name: "Ubuntu 16.04 (Xenial Xerus)"
+      env: [VENDOR=ubuntu, VERSION=xenial]
     - name: "Ubuntu 18.04 (Bionic Beaver)"
       env: [VENDOR=ubuntu, VERSION=bionic]
 
