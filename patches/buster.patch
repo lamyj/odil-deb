@@ -1,9 +1,21 @@
 diff --git a/debian/rules b/debian/rules
 --- a/debian/rules
 +++ b/debian/rules
-@@ -118,6 +118,9 @@
- 	find tests -name "*pyc" -delete
+@@ -100,6 +100,8 @@ --devunversioned \
+ 		--commit --multiarch --exclude-a --exclude-la \
+ 		--movedev debian/tmp/usr/include/* usr/include \
+ 		--override s/libboost_log.*-dev/libboost-log-dev/ \
++		--override 's/lib\(charls\|cmr\|dcm\|i2d\|ijg\).*-dev/libdcmtk-dev/' \
++		--override s/libicu.*-dev/libicu-dev/ \
+ 		debian/tmp/usr/lib/*.so
+ 
+ override_dh_clean:
+diff --git a/debian/rules b/debian/rules
+--- a/debian/rules
++++ b/debian/rules
+@@ -110,6 +110,9 @@ find tests -name "*pyc" -delete
  	rm -rf build-nopy $(ALLPY:%=build-py%) build-indep documentation/_build
+	rm -f build
  
 +override_dh_dwz:
 +	echo "Ignore dh_dwz due to 'dwz -q -- debian/python-odil/usr/lib/python2.7/dist-packages/odil/_odil.x86_64-linux-gnu.so returned exit code 1'"
