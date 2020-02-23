@@ -19,13 +19,12 @@ diff --git a/debian/control b/debian/control
 diff --git a/debian/rules b/debian/rules
 --- a/debian/rules
 +++ b/debian/rules
-@@ -111,6 +111,10 @@ --devunversioned \
+@@ -100,6 +100,9 @@ --devunversioned \
  		--commit --multiarch --exclude-a --exclude-la \
  		--movedev debian/tmp/usr/include/* usr/include \
  		--override s/libboost_log.*-dev/libboost-log-dev/ \
 +		--override s/libjsoncpp.-dev/libjsoncpp-dev/ \
-+		--override s/libdcm.*-dev/libdcmtk-dev/ \
-+		--override s/libof.*-dev/libdcmtk-dev/ \
++		--override 's/lib\(CharLS\|cmr\|dcm\|i2d\|ijg\|of\).*-dev/libdcmtk-dev/' \
 +		--override s/libicuuc.*-dev/libicu-dev/ \
  		debian/tmp/usr/lib/*.so
  
