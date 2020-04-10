@@ -32,15 +32,6 @@ diff --git a/debian/rules b/debian/rules
  
  # needed for the tests
  export DCMDICTPATH=$(shell ls /usr/share/libdcmtk*/dicom.dic | head -n 1)
-@@ -10,7 +10,7 @@ PYTHON3=$(shell py3versions -vd)
- ALLPY=$(shell py3versions -vs)
- 
- %:
--	dh $@ --builddirectory=build --with python3
-+	dh $@ --builddirectory=build --with python3 --parallel
- 
- # Base build: no wrappers
- override_dh_auto_configure-arch:
 @@ -111,6 +111,14 @@ override_dh_install-arch:
  		--commit --multiarch --exclude-a --exclude-la \
  		--movedev debian/tmp/usr/include/* usr/include \
