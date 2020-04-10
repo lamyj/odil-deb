@@ -8,10 +8,10 @@ services:
 env:
   global:
     - BACKPORTER="Julien Lamy <lamy@unistra.fr>"
-    - DSC=http://deb.debian.org/debian/pool/main/o/odil/odil_0.11.0-1.dsc
-    - ORIG=http://deb.debian.org/debian/pool/main/o/odil/odil_0.11.0.orig.tar.gz
-    - ORIG_SIG=http://deb.debian.org/debian/pool/main/o/odil/odil_0.11.0.orig.tar.gz.asc
-    - DEBIANIZATION=http://deb.debian.org/debian/pool/main/o/odil/odil_0.11.0-1.debian.tar.xz
+    - DSC=http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.0-1.dsc
+    - ORIG=http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.0.orig.tar.gz
+    - ORIG_SIG=http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.0.orig.tar.gz.asc
+    - DEBIANIZATION=http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.0-1.debian.tar.xz
     - PATCH_DIR=${TRAVIS_BUILD_DIR}/patches
     # travis encrypt AWS_ENDPOINT=$AWS_ENDPOINT
     - secure: "WxkfNURZsifGeHXYpaS4fWAgbUbw4Y14rxNgdHI81PZWdKvx6iQ7yeWQ3BwH/7I5BhwpRjDCqLyp+hosdLvBvKoaqY8C/6w4T+RjHnVzQ3O1TJFyppM4lppgSmK/ESEsXQmpeeufIVLCAq4MfmkfrOmVcwr3PH/KlVY8mIz6iNjBY/oYY4L8Xx2PyGcHijZ9u2Yw+DARzOsjz6yFNwSQg7HAajoG54TiwIE+fEOvQ0XwYiqfq7AEWxItPqmz9cQJ+FRBrmHMNFdIuNx+7Tc7KK1Xt0eSn1nQTHTl8EAjt5NLfen6lKmph0Egp6LlO6XgwrlHcSEl4bwh17ky2aeXP2FluwH2M4if9yEyC2D6EE2SDejQNJ5rTiFFhVLB0Ds7s6TdUqYpesvqcphn7dhrg87sK/0ciwTNB4Rtne+qk6y5g6T5i09BlGPV0IkmcI+kn7pxo26szMWMHQhhPYcW5O73XQ7jnOrIFwdXczOFqHa0ZjDq+fv8WXur/oKPGYYmztmYzhosGB5RkgVFfdn+d22sAZ7vsMaxxPkruvSBd/miFyi/X7Q0PHtjOI7dn+NXd8IDUBYESgeGx3jQFrq89veRKTSbYrtQsvE6fA/uBI9ZAbAYp2fHX0ngn7ERuGe2KmV6Q1vdc/MjsH0EUPdQt5hwpGP61fp5hS6YuUJbY8Y="
