@@ -11,6 +11,8 @@ while getopts "p:uh" OPT; do
   esac
 done
 
+export DEBIAN_FRONTEND=noninteractive
+
 APT_GET="apt-get -y --no-install-recommends"
 
 apt-get update
