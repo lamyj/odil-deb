@@ -17,18 +17,10 @@ if [ -n "${BACKPORTER}" ]; then
     "Backport to ${DISTRIB}"
 fi
 
-# NOTE: -jauto works since dpkg 1.17. jessie, xenial are OK, older versions are
-# untested
-DPKG_BUILDPACKAGE="dpkg-buildpackage -jauto -us -uc"
+DPKG_BUILDPACKAGE="dpkg-buildpackage -us -uc"
 
 ${DPKG_BUILDPACKAGE} -S
-
-CONTROL="debian/control"
-if [ -n "$(grep 'Architecture: all' ${CONTROL})" ]; then
-  ${DPKG_BUILDPACKAGE} -A
-fi
-if [ -n "$(grep 'Architecture: any' ${CONTROL})" ]; then
-  ${DPKG_BUILDPACKAGE} -B
-fi
+${DPKG_BUILDPACKAGE} -A
+${DPKG_BUILDPACKAGE} -B
 
 ${DPKG_BUILDPACKAGE} -T clean
