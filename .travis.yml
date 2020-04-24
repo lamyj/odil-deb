@@ -30,6 +30,8 @@ jobs:
       env: [VENDOR=ubuntu, VERSION=xenial]
     - name: "Ubuntu 18.04 (Bionic Beaver)"
       env: [VENDOR=ubuntu, VERSION=bionic]
+    - name: "Ubuntu 20.04 (Focal Fossa)"
+      env: [VENDOR=ubuntu, VERSION=focal]
 
 before_install:
   - docker run -di -v ${TRAVIS_BUILD_DIR}:${TRAVIS_BUILD_DIR} --name ${VENDOR}_${VERSION} --rm ${VENDOR}:${VERSION}
