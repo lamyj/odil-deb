@@ -3,10 +3,8 @@ on: push
 
 env:
   BACKPORTER: "Julien Lamy <lamy@unistra.fr>"
-  DSC: http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.1-1.dsc
-  ORIG: http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.1.orig.tar.gz
-  # ORIG_SIG: http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.1.orig.tar.gz.asc
-  DEBIANIZATION: http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.1-1.debian.tar.xz
+  REPOSITORY: https://salsa.debian.org/med-team/odil.git/
+  TAG: debian/0.12.1-1
 
 jobs:
   build:
@@ -45,10 +43,8 @@ jobs:
           # calling `apt-cache --no-generate show PKG`
           docker exec ${VENDOR}_${VERSION} rm -f /etc/apt/apt.conf.d/docker-clean
           docker exec ${VENDOR}_${VERSION} ${GITHUB_WORKSPACE}/setup -u
-          # docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} curl -L --remote-name-all ${DSC} ${ORIG} ${ORIG_SIG} ${DEBIANIZATION}
-          docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} curl -L --remote-name-all ${DSC} ${ORIG} ${DEBIANIZATION}
       - name: Prepare the build environment
-        run: docker exec -w /home/somebody -u somebody -e PATCH_DIR=${GITHUB_WORKSPACE}/patches ${VENDOR}_${VERSION} ${GITHUB_WORKSPACE}/prepare
+        run: docker exec -w /home/somebody -u somebody -e REPOSITORY=${REPOSITORY} -e TAG=${TAG} -e PATCH_DIR=${GITHUB_WORKSPACE}/patches ${VENDOR}_${VERSION} ${GITHUB_WORKSPACE}/prepare
       - name: Build the packages
         run: docker exec -w /home/somebody -u somebody -e BACKPORTER="${BACKPORTER}" ${VENDOR}_${VERSION} ${GITHUB_WORKSPACE}/build
       - name: Check the packages

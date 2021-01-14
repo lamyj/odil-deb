@@ -2,9 +2,12 @@
 
 set -euv
 
-dpkg-source -x *dsc package
-
+# Get the source package from the repository. NOTE: if we need to modify the
+# source code (e.g. modify the patch series) and not only the contents of the
+# debian/ directory, using the official source package (*.dsc) will not work.
+git clone ${REPOSITORY} package
 cd package
+git checkout ${TAG}
 
 PATCH="${PATCH_DIR}/$(lsb_release -cs).patch"
 if [ -e ${PATCH} ]; then

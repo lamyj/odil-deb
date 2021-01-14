@@ -18,7 +18,7 @@ APT_GET="apt-get -y --no-install-recommends"
 apt-get update
 apt-get upgrade -y
 ${APT_GET} install \
-  adduser apt-utils curl devscripts dpkg-dev equivs gnupg libwww-perl \
+  adduser apt-utils curl devscripts dpkg-dev equivs git gnupg libwww-perl \
   lsb-release software-properties-common sudo
 
 adduser --disabled-password --gecos '' somebody
