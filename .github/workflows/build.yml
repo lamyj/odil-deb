@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Configure environment
         run: |
-          echo 'VENDROR=${{ matrix.vendor }}' >> $GITHUB_ENV
+          echo 'VENDOR=${{ matrix.vendor }}' >> $GITHUB_ENV
           echo 'VERSION=${{ matrix.version }}' >> $GITHUB_ENV
       - name: Checkout latest revision
         uses: actions/checkout@v2
