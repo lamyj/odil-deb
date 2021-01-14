@@ -1,8 +1,6 @@
 name: Build
 on: push
 
-os: ubuntu-latest
-
 env:
   BACKPORTER: "Julien Lamy <lamy@unistra.fr>"
   DSC: http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.1-1.dsc
@@ -12,7 +10,7 @@ env:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     name: ${{ matrix.name }}
     strategy:
       fail-fast: false
