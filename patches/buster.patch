@@ -1,3 +1,21 @@
+diff --git a/debian/control b/debian/control
+--- a/debian/control
++++ b/debian/control
+@@ -20,6 +20,7 @@
+                libboost-filesystem-dev,
+                libboost-log-dev,
+                libboost-python-dev,
++               libboost-regex-dev,
+                pybind11-dev,
+                python3-pybind11,
+                libboost-test-dev,
+diff --git a/debian/patches/series b/debian/patches/series
+--- a/debian/patches/series
++++ b/debian/patches/series
+@@ -1,3 +1,2 @@
+ remove-soname-in-wrappers.patch
+ remove_boost_exception.patch
+-fix-interpreter-path.patch
 diff --git a/debian/rules b/debian/rules
 --- a/debian/rules
 +++ b/debian/rules
