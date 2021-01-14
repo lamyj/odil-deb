@@ -44,19 +44,19 @@ jobs:
           # WARNING: this docker-specific files causes errors in d-shlibmove when 
           # calling `apt-cache --no-generate show PKG`
           docker exec ${VENDOR}_${VERSION} rm -f /etc/apt/apt.conf.d/docker-clean
-          docker exec ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/setup -u
+          docker exec ${VENDOR}_${VERSION} ${GITHUB_WORKSPACE}/setup -u
           # docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} curl -L --remote-name-all ${DSC} ${ORIG} ${ORIG_SIG} ${DEBIANIZATION}
           docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} curl -L --remote-name-all ${DSC} ${ORIG} ${DEBIANIZATION}
       - name: Prepare the build environment
-        run: docker exec -w /home/somebody -u somebody -e PATCH_DIR=${GITHUB_WORKSPACE}/patches ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/prepare
+        run: docker exec -w /home/somebody -u somebody -e PATCH_DIR=${GITHUB_WORKSPACE}/patches ${VENDOR}_${VERSION} ${GITHUB_WORKSPACE}/prepare
       - name: Build the packages
-        run: docker exec -w /home/somebody -u somebody -e BACKPORTER="${BACKPORTER}" ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/build
+        run: docker exec -w /home/somebody -u somebody -e BACKPORTER="${BACKPORTER}" ${VENDOR}_${VERSION} ${GITHUB_WORKSPACE}/build
       - name: Check the packages
-        run: docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/check
+        run: docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} ${GITHUB_WORKSPACE}/check
       - name: Prepare for upload
         run: |
-          docker exec -w ${TRAVIS_BUILD_DIR} ${VENDOR}_${VERSION} mkdir packages
-          docker exec -w ${TRAVIS_BUILD_DIR} ${VENDOR}_${VERSION} sh -c 'mv /home/somebody/*deb ./packages'
+          docker exec -w ${GITHUB_WORKSPACE} ${VENDOR}_${VERSION} mkdir packages
+          docker exec -w ${GITHUB_WORKSPACE} ${VENDOR}_${VERSION} sh -c 'mv /home/somebody/*deb ./packages'
       - name: Destroy container
         run: docker kill ${VENDOR}_${VERSION}
       - name: Upload packages
