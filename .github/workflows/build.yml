@@ -1,0 +1,68 @@
+name: Build
+on: push
+
+os: ubuntu-latest
+
+env:
+  BACKPORTER: "Julien Lamy <lamy@unistra.fr>"
+  DSC: http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.1-1.dsc
+  ORIG: http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.1.orig.tar.gz
+  # ORIG_SIG: http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.1.orig.tar.gz.asc
+  DEBIANIZATION: http://deb.debian.org/debian/pool/main/o/odil/odil_0.12.1-1.debian.tar.xz
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "Debian 9 (Stretch)"
+            vendor: debian
+            version: stretch
+          - name: "Debian 10 (Buster)"
+            vendor: debian
+            version: buster
+          - name: "Ubuntu 16.04 (Xenial Xerus)"
+            vendor: ubuntu
+            version: xenial
+          - name: "Ubuntu 18.04 (Bionic Beaver)"
+            vendor: ubuntu
+            version: bionic
+          - name: "Ubuntu 20.04 (Focal Fossa)"
+            vendor: ubuntu
+            version: focal
+    steps:
+      - name: Configure environment
+        run: |
+          echo 'VENDROR=${{ matrix.vendor }}' >> $GITHUB_ENV
+          echo 'VERSION=${{ matrix.version }}' >> $GITHUB_ENV
+      - name: Checkout latest revision
+        uses: actions/checkout@v2
+      - name: Prepare the container
+        run: |
+          docker run -di -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} --name ${VENDOR}_${VERSION} --rm ${VENDOR}:${VERSION}
+          # WARNING: this docker-specific files causes errors in d-shlibmove when 
+          # calling `apt-cache --no-generate show PKG`
+          docker exec ${VENDOR}_${VERSION} rm -f /etc/apt/apt.conf.d/docker-clean
+          docker exec ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/setup -u
+          # docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} curl -L --remote-name-all ${DSC} ${ORIG} ${ORIG_SIG} ${DEBIANIZATION}
+          docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} curl -L --remote-name-all ${DSC} ${ORIG} ${DEBIANIZATION}
+      - name: Prepare the build environment
+        run: docker exec -w /home/somebody -u somebody -e PATCH_DIR=${GITHUB_WORKSPACE}/patches ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/prepare
+      - name: Build the packages
+        run: docker exec -w /home/somebody -u somebody -e BACKPORTER="${BACKPORTER}" ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/build
+      - name: Check the packages
+        run: docker exec -w /home/somebody -u somebody ${VENDOR}_${VERSION} ${TRAVIS_BUILD_DIR}/check
+      - name: Prepare for upload
+        run: |
+          docker exec -w ${TRAVIS_BUILD_DIR} ${VENDOR}_${VERSION} mkdir packages
+          docker exec -w ${TRAVIS_BUILD_DIR} ${VENDOR}_${VERSION} sh -c 'mv /home/somebody/*deb ./packages'
+      - name: Destroy container
+        run: docker kill ${VENDOR}_${VERSION}
+      - name: Upload packages
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.vendor}}_${{ matrix.version }}
+          path: packages/
