@@ -20,9 +20,6 @@ jobs:
           - name: "Debian 10 (Buster)"
             vendor: debian
             version: buster
-          - name: "Ubuntu 16.04 (Xenial Xerus)"
-            vendor: ubuntu
-            version: xenial
           - name: "Ubuntu 18.04 (Bionic Beaver)"
             vendor: ubuntu
             version: bionic
