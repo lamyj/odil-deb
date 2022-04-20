@@ -4,7 +4,7 @@ on: push
 env:
   BACKPORTER: "Julien Lamy <lamy@unistra.fr>"
   REPOSITORY: https://salsa.debian.org/med-team/odil.git/
-  TAG: debian/0.12.1-1
+  TAG: debian/0.12.2-1
 
 jobs:
   build:
@@ -20,6 +20,9 @@ jobs:
           - name: "Debian 10 (Buster)"
             vendor: debian
             version: buster
+          - name: "Debian 10 (Bullseye)"
+            vendor: debian
+            version: bullseye
           - name: "Ubuntu 18.04 (Bionic Beaver)"
             vendor: ubuntu
             version: bionic
